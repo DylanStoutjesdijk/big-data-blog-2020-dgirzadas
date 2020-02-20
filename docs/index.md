@@ -1,6 +1,6 @@
 # Assignment 1
 
-**Name:** Domantas Girzadas
+**Name:** Domantas Giržadas
 
 **Student number:** s1008829
 
