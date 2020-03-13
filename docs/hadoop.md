@@ -6,7 +6,7 @@
 3. **hdfs dfs -mkdir:** creates a new directory in the containter.
 4. **hdfs dfs -ls:** lists files in the container directory.
 
-** Question 2: How do you use mapreduce to count the number of lines/words/characters/… in the Complete Shakespeare?**
+**Question 2: How do you use mapreduce to count the number of lines/words/characters/… in the Complete Shakespeare?**
 
 For the assignment, I am counting different character types (i.e. uppercase letters, lowercase letters, numbers and special characters).
 
@@ -14,7 +14,7 @@ The way I do it is by using the same StringTokenizer as in the WordCount example
 
 Then I use the exact same combiner as in the WordCount example to combine the counts together.
 
-** Question 3: Does Romeo or Juliet appear more often in the plays? Can you answer this question making only one pass over the corpus?**
+**Question 3: Does Romeo or Juliet appear more often in the plays? Can you answer this question making only one pass over the corpus?**
 
 Yes, it is possible to determine this by making only one pass. I have found that:
 

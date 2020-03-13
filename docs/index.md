@@ -1,4 +1,4 @@
-# Assignment 1
+# Welcome
 
 **Name:** Domantas Girzadas
 
@@ -8,4 +8,4 @@
 
 **Table of contents:**
 * [About me](about.md)
-* [Assignment 1 - Hadoop](hadoop.md)
+* [Assignment 2 - Hadoop](hadoop.md)
