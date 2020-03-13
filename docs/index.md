@@ -1,6 +1,6 @@
 # Assignment 1
 
-**Name:** Domantas Giržadas
+**Name:** Domantas Girzadas
 
 **Student number:** s1008829
 
@@ -8,3 +8,4 @@
 
 **Table of contents:**
 * [About me](about.md)
+* [Assignment 1 - Hadoop](hadoop.md)
