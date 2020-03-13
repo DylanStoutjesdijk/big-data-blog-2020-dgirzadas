@@ -14,9 +14,11 @@ The way I do it is by using the same StringTokenizer as in the WordCount example
 
 Then I use the exact same combiner as in the WordCount example to combine the counts together.
 
+[The code can be found in the assignment 2 repository (TypeCount.java)](https://github.com/rubigdata/hello-hadoop-2020-dgirzadas)
+
 **Question 3: Does Romeo or Juliet appear more often in the plays? Can you answer this question making only one pass over the corpus?**
 
-Yes, it is possible to determine this by making only one pass. I have found that:
+Yes, it is possible to determine this by making only one pass. By using a basic word counter, I have found that:
 
 * __Romeo__ appears in the corpus 313 times
 * __Juliet__ appears in the corpus 206 times
