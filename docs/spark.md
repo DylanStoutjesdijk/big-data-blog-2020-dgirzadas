@@ -7,7 +7,7 @@ The dataset that I chose for it is a UFO sighting dataset from [HERE](https://da
 ## Dataset 
 ### Description
 
-This dataset is a cleaned up data scrape from the National UFO Reporting Center online database: http://www.nuforc.org/webreports.html
+This dataset is a cleaned up data scrape from [the National UFO Reporting Center online database](http://www.nuforc.org/webreports.html).
 
 Each row in this database contains the following attributes:
 1. **`summary`:** A trimmed version of the full report text.
@@ -52,7 +52,7 @@ val ufoShapes_top = ufoShapes.filter(!$"shape".isin(filterOutValues:_*)).orderBy
 
 These are the results:
 
-![ufo_shapes](/images/ufoshapes.png)
+![ufo_shapes](https://github.com/rubigdata/big-data-blog-2020-dgirzadas/tree/master/images/ufoshapes.png)
 
 Okay, seems like the aliens are not too original in their spacecraft design.
 
@@ -67,7 +67,7 @@ val ufoDurations_top = ufoDurations.filter(!$"duration".isin(filterOutValues:_*)
 
 Here's the results:
 
-![ufo_durations](/images/ufotimes.png)
+![ufo_durations](https://github.com/rubigdata/big-data-blog-2020-dgirzadas/tree/master/images/ufotimes.png)
 
 Hmm... They don't seem to stick around for long... Seems like they are disappointed by what they find here.
 
@@ -82,6 +82,6 @@ val latlonDF = ufoDF.filter($"city_latitude".cast(IntegerType).isNotNull && $"ci
 
 And now, let's map these out using `GeoPointsChart`:
 
-![ufo_map](/images/ufomap.png)
+![ufo_map](https://github.com/rubigdata/big-data-blog-2020-dgirzadas/tree/master/images/ufomap.png)
 
 Looks like the higher the population of the area, the higher the number of UFO sightings. This means that they are watching and analysing us, humans... Right?
