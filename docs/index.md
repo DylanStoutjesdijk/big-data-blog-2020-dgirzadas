@@ -9,3 +9,4 @@
 **Table of contents:**
 * [About me](about.md)
 * [Assignment 2 - Hadoop](hadoop.md)
+* [Assignment 3 - Spark](spark.md)
