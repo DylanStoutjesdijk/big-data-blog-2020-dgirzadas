@@ -10,4 +10,4 @@
 * [About me](about.md)
 * [Assignment 2 - Hadoop](hadoop.md)
 * [Assignment 3 - Spark](spark.md)
-* [Assignment 4 - BDR Hackathon] (https://rubigdata.github.io/big-data-blog-2020-TijsRozenbroek/BDR_hackathon_blog.html)
+* [Assignment 4 - BDR Hackathon](https://rubigdata.github.io/big-data-blog-2020-TijsRozenbroek/BDR_hackathon_blog.html)
