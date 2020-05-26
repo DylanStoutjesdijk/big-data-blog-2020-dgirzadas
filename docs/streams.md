@@ -225,6 +225,7 @@ By running a writer for this stream, we get the following results:
 +-------------------+--------+----------------+------------------+-----------+
 ```
 *You can change the period of these insights (e.g. 10 seconds, 5 minutes, 24 hours, etc.) by choosing a trigger processing time yourself*
+
 We can tweak the query to quickly and easily access any kind of insight, if we store some of the data in memory. For example:
 - Seeing which items are being sold the most:
 ```scala
