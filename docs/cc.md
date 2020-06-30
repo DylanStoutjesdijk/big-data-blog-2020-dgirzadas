@@ -206,7 +206,7 @@ Luckily, we had access to a newly set up educational cluster 'REDBAD', where we 
 That was very easy to achieve in theory - I just replaced the `warcfile` definition that `sc.newAPIHadoopFile()` uses with the path to the Amazon S3 storage path:
 
 ```scala
-"s3://commoncrawl/crawl-data/CC-MAIN-2020-24/segments/1590347385193.5/warc/*.warc.gz"
+val warcfile = "s3://commoncrawl/crawl-data/CC-MAIN-2020-24/segments/1590347385193.5/warc/*.warc.gz"
 ```
 
 As you can see, I replaced the actual subset archive names with a wildcard `*`. This allowed me to easily run my analysis on the whole segment of the Common Crawl.
