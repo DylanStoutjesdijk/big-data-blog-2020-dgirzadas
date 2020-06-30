@@ -41,14 +41,22 @@ val warcf = sc.newAPIHadoopFile(
 
 Now, this file contains a lot of information that is redundant to my analysis. To improve the runtime of the task, while also preventing multiple problems in the future, I filtered the dataset out to only contain information that is interesting for my analysis - the URLs of the web pages and their HTML contents:
 ```scala
-val warc_filtered =                                                       //__
-     warcs.map{ wr => wr._2 }.                                            //  |
-        filter{ _.isValid() }.                                            //  |  
-        map{ _.getRecord() }.                                             //  |- Taking valid pages with interesting content
-        filter{ _.hasContentHeaders() }.                                  //  |
-        filter{wr =>  wr.getHeaderValue("WARC-Type") == "response" }.     //__|
-        map{wr => (wr.getHeader().getUrl(), wr.getHttpStringBody())}.     //   - Mapping these pages to simple (<URL>, <HTTP body>) pairs
-        cache()                                                           //   - Caching in case of multiple analyses on the same set 
+val warc_filtered =                                          //__
+     warcf.map{ wr => wr._2 }.                               //  |
+        filter{ _.isValid() }.                               //  |  
+        map{ _.getRecord() }.                                //  |
+        filter{ _.hasContentHeaders() }.                     //  |
+        filter{ _.isHttp() }.                                //  |
+        filter{wr =>  wr.getHeader()                         //  |- Taking valid pages with interesting content
+			.getHeaderValue("WARC-Type") == "response" }.    //  |
+        filter{wr => wr.getHttpHeaders()                     //  |
+			.get("Content-Type") != null}.                   //  |
+        filter{wr => wr.getHttpHeaders()                     //  |
+			.get("Content-Type").startsWith("text/html")}.   //__|
+        map{wr => 
+		(wr.getHeader().getUrl(), 
+		StringUtils.normalizeSpace(wr.getHttpStringBody()))}.//   - Mapping these pages to simple (<URL>, <HTTP body>) pairs
+        cache()                                              //   - Caching in case of multiple analyses on the same set
 ```
 
 ## Part II: Local analysis
@@ -187,3 +195,18 @@ val site_imageCounts = warcok.
 
 After running the code for around 3 minutes, I got the list of the websites with most images. This list contained a wide variety of sites, such as a gallery page from a primary school in Latvia or a gallery page of a Dutch charity association (images for the photo thumbnails) but also obscure mobile app sites (images with app logos) and even a Japanese adult chatroom site with a bunch of incorrectly-scaled banners and thumbnails (of course, this is the Internet after all...) - All of them with more than 1000 images in one page!
 
+## Part II: Large-scale analysis on REDBAD cluster
+
+Poland won the fight, but not the war yet. Just because `.pl` was the most "well-decorated" TLD in the small subset, does not mean that it can wear the crown.
+
+To really get results, representative of at least a sizeable portion of the Internet, I need to run my analysis on a bigger scale.
+
+Luckily, we had access to a newly set up educational cluster 'REDBAD', where we could run our large-scale tests. Now, as it was a very freshly set up, at the start, it took quite a bit of troubleshooting (even in collaboration with the professor) to take care of problems coming from all kinds of sources. However, in the end, I was able to run my analysis on a whole segment of the Common Crawl.
+
+That was very easy to achieve in theory - I just replaced the `warcfile` definition that `sc.newAPIHadoopFile()` uses with the path to the Amazon S3 storage path:
+
+```scala
+"s3://commoncrawl/crawl-data/CC-MAIN-2020-24/segments/1590347385193.5/warc/*.warc.gz"
+```
+
+As you can see, I replaced the actual subset archive names with a wildcard `*`. This allowed me to easily run my analysis on the whole segment of the Common Crawl.
