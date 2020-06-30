@@ -201,7 +201,7 @@ Poland won the fight, but not the war yet. Just because `.pl` was the most "well
 
 To really get results, representative of at least a sizeable portion of the Internet, I need to run my analysis on a bigger scale.
 
-Luckily, we had access to a newly set up educational cluster 'REDBAD', where we could run our large-scale tests. Now, as it was a very freshly set up, at the start, it took quite a bit of troubleshooting (even in collaboration with the professor) to take care of problems coming from all kinds of sources. However, in the end, I was able to run my analysis on a whole segment of the Common Crawl.
+Luckily, we had access to a newly set up educational cluster 'REDBAD', where we could run our large-scale tests. Now, as it was a very freshly set up, at the start, it took quite a bit of troubleshooting (even in collaboration with the professor) to take care of problems coming from all kinds of sources. However, in the end, I was able to build a `.jar` file to run my analysis on a whole segment of the Common Crawl - on the REDBAD cluster.
 
 That was very easy to achieve in theory - I just replaced the `warcfile` definition that `sc.newAPIHadoopFile()` uses with the path to the Amazon S3 storage path:
 
