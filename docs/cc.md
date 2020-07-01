@@ -145,7 +145,7 @@ Yup, as expected, there are way more `.com` web pages than others. Also, all of 
 So, to normalise, I just divide the image counts by the site counts. To do that, I joined the two RDDs (only took top-level domains that have more than 250 web pages to their name) and divided the numbers:
 ```scala
 val relative_imageCounts = domain_siteCounts.
-                        filter(_._2 > 250).                       // Only take domains with more than 250 pages
+                        filter(_._2 > 50).                        // Only take domains with more than 50 pages
                         join(domain_imageCounts).                 // Join the image count RDD to the page count one
                         mapValues{x =>
                         (x._2.toDouble / x._1.toDouble,           // First result value is the ratio images/sites
@@ -210,3 +210,45 @@ val warcfile = "s3://commoncrawl/crawl-data/CC-MAIN-2020-24/segments/15903473851
 ```
 
 As you can see, I replaced the actual subset archive names with a wildcard `*`. This allowed me to easily run my analysis on the whole segment of the Common Crawl.
+
+However, after running this script for a few hours, I realised that reading the whole segment from S3 like that is suboptimal. It does not make use of partitioning, like reading from HDFS does. So, I decided to only read a few (namely 3) `.warc.gz` files from s3, see those results and move the big problem to HDFS.
+
+I chose the 3 `.warc.gz` files:
+
+```scala
+val warcfile = "s3://commoncrawl/crawl-data/CC-MAIN-2020-24/segments/1590347385193.5/warc/CC-MAIN-20200524210325-20200525000325-00[0-2]00.warc.gz"
+```
+
+And after running the analysis on them (10 minutes), I got the following results:
+
+```
+ Relative image counts:
+(.md,(68.86764705882354,4683 images in 68 websites))
+(.kr,(43.525285481239806,26681 images in 613 websites))
+(.pro,(38.260416666666664,3673 images in 96 websites))
+(.th,(37.47586206896552,5434 images in 145 websites))
+(.at,(35.556569343065696,19485 images in 548 websites))
+(.lv,(33.84513274336283,7649 images in 226 websites))
+(.club,(33.742138364779876,5365 images in 159 websites))
+(.pl,(33.61665877898722,71032 images in 2113 websites))
+(.ge,(33.2972972972973,2464 images in 74 websites))
+(.ph,(32.15151515151515,2122 images in 66 websites))
+```
+
+Seems like Moldovians lead this bigger subset of the Common Crawl. Let's beef up to a whole segment (~560GB) on HDFS!
+
+To do so, I just needed to pull a whole segment into hdfs:
+```
+hadoop distcp s3://commoncrawl/crawl-data/CC-MAIN-2020-24/segments/1590347385193.5/warc/*warc.gz hdfs:///user/<username>/cc-segment
+```
+*Actually, the professor did this for me while I was struggling with reading the whole segment from s3.*
+
+Now, before running the analysis on HDFS, I decided to optimise my code a little - filtering the TLDs that have more than 50 sites, as well as coalescing this data before caching it. That will help me save some cache space and make better use of partitioning.
+
+So, I ran my analysis on:
+
+```scala
+val warcfile = "hdfs:///user/<username>/cc-segment/*"
+```
+
+While running this job, I got to witness the elasticity of cloud computing. Initially, my job was running only on 2 executors, which processed about 4000 tasks in 8 hours. However, the next morning, professor provisioned 8 new task nodes to the cluster, which supplied 6 more executors to my job - now the job was being run on 4 times as many executors. After this change, I noticed a clear improvement in task processing. Namely, four times as many tasks were being processed within the same time.
