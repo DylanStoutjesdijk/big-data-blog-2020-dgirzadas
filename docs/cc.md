@@ -252,3 +252,16 @@ val warcfile = "hdfs:///user/<username>/cc-segment/*"
 ```
 
 While running this job, I got to witness the elasticity of cloud computing. Initially, my job was running only on 2 executors, which processed about 4000 tasks in 8 hours. However, the next morning, professor provisioned 8 new task nodes to the cluster, which supplied 6 more executors to my job - now the job was being run on 4 times as many executors. After this change, I noticed a clear improvement in task processing. Namely, four times as many tasks were being processed within the same time.
+
+
+After running for 17 hours... it failed...
+
+```
+exitCode: 11, (reason: Due to executor failures all available nodes are blacklisted)
+```
+
+*Oof*.
+
+Well, I guess you shouldn't run huge jobs like this without any type of checkpointing or intermediate result saving.
+
+**Lesson learned!**
