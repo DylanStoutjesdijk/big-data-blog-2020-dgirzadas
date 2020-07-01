@@ -103,11 +103,11 @@ val domain_imageCounts = warcok.                                           //__
 After running this code (takes around 3 minutes on the previously mentioned small CC data subset), I got the following results:
 
 ```
-(.com,535692)
-(.ru,55590)
-(.net,49601)
-(.org,43748)
-(.de,38673)
+(.com,547783)
+(.de,55474)
+(.ru,53564)
+(.org,49744)
+(.net,49537)
 ```
 
 WOW! The `.com` domain is a clear winner here, right? Not so fast. The subset that I am analysing most likely consists of data mostly from `.com` pages, as this top-level domain is so prominent. 
@@ -133,16 +133,16 @@ val domain_siteCounts = warcok.                                                 
 So, by running this code (around 1.5 minutes), we get the results:
 
 ```
-(.com,21236)
-(.org,2607)
-(.ru,2116)
-(.de,1849)
-(.net,1806)
+(.com,21424)
+(.org,2502)
+(.ru,2081)
+(.net,1860)
+(.de,1847)
 ```
 
 Yup, as expected, there are way more `.com` web pages than others. Also, all of these top 5 top-level domains appeared in the "most images" list, so I expect to see some heavy normalisation effects.
 
-So, to normalise, I just divide the image counts by the site counts. To do that, I joined the two RDDs (only took top-level domains that have more than 250 web pages to their name) and divided the numbers:
+So, to normalise, I just divide the image counts by the site counts. To do that, I joined the two RDDs (only took top-level domains that have more than 50 web pages to their name) and divided the numbers:
 ```scala
 val relative_imageCounts = domain_siteCounts.
                         filter(_._2 > 50).                        // Only take domains with more than 50 pages
@@ -160,23 +160,23 @@ So the final results!
 The TOP-10 of the most "well-decorated" top-level domains is:
 
 ```
-(.pl,(33.34530386740332,24142 images in 724 websites))
-(.jp,(31.226779252110976,25887 images in 829 websites))
-(.info,(29.51121076233184,13162 images in 446 websites))
-(.net,(27.464562569213733,49601 images in 1806 websites))
-(.ru,(26.27126654064272,55590 images in 2116 websites))
-(.ua,(26.11111111111111,9635 images in 369 websites))
-(.com,(25.225654548879263,535692 images in 21236 websites))
-(.br,(24.180981595092025,15766 images in 652 websites))
-(.es,(22.104368932038835,9107 images in 412 websites))
-(.de,(20.915630070308275,38673 images in 1849 websites))
+(.at,(44.2,8398 images in 190 websites))
+(.kr,(37.292682926829265,7645 images in 205 websites))
+(.by,(36.18518518518518,2931 images in 81 websites))
+(.cc,(36.0625,2885 images in 80 websites))
+(.it,(35.67615658362989,30075 images in 843 websites))
+(.pl,(35.52932551319648,24231 images in 682 websites))
+(.rs,(35.28169014084507,2505 images in 71 websites))
+(.fr,(33.24747474747475,26332 images in 792 websites))
+(.ro,(33.23728813559322,7844 images in 236 websites))
+(.ee,(32.018348623853214,3490 images in 109 websites))
 ```
 
-Congratulations, Poland! Your websites have the most images in them! (At least in this small subset of the web crawl).
+Congratulations, Austria! Your websites have the most images in them! (At least in this small subset of the web crawl).
 
 ### Honourable mentions
 
-Well, Poland got the gold. However, I can not leave out the honourable mentions - the web pages that were out of their league. Let's look at the pages that had the most images in one page.
+Well, Austria got the gold. However, I can not leave out the honourable mentions - the web pages that were out of their league. Let's look at the pages that had the most images in one page.
 
 This has been achieved in basically the same way as top-level domain image counts, but with full URLs as keys instead:
 
@@ -197,7 +197,7 @@ After running the code for around 3 minutes, I got the list of the websites with
 
 ## Part II: Large-scale analysis on REDBAD cluster
 
-Poland won the fight, but not the war yet. Just because `.pl` was the most "well-decorated" TLD in the small subset, does not mean that it can wear the crown.
+Austria won the fight, but not the war yet. Just because `.at` was the most "well-decorated" TLD in the small subset, does not mean that it can wear the crown.
 
 To really get results, representative of at least a sizeable portion of the Internet, I need to run my analysis on a bigger scale.
 
