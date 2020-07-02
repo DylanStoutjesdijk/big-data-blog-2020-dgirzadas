@@ -264,4 +264,24 @@ exitCode: 11, (reason: Due to executor failures all available nodes are blacklis
 
 Well, I guess you shouldn't run huge jobs like this without any type of checkpointing or intermediate result saving.
 
-**Lesson learned!**
+The next day, the `coalesce()` that I did seemed to be the problem - I figured it out by running a smaller sample with the same code. So, I started a big run without this coalescing, as I was still curious about the results.
+
+A few hours later... The whole cluster died... A very unfortunate coincidence...
+
+I give up... Let's just look at the results from the smaller run (~30GB):
+
+```
+ Relative image counts:
+(.lv,(49.278815489749434,108167 images in 2195 websites))
+(.kr,(41.88379942140791,260601 images in 6222 websites))
+(.th,(38.48991354466859,53424 images in 1388 websites))
+(.pl,(35.38016374269006,756251 images in 21375 websites))
+(.bg,(32.57729775518848,76915 images in 2361 websites))
+(.gr,(32.553635372878716,209092 images in 6423 websites))
+(.vn,(31.105941591137967,154441 images in 4965 websites))
+(.blog,(30.787920384351406,44858 images in 1457 websites))
+(.ee,(30.670301708469648,84374 images in 2751 websites))
+(.ro,(30.438337246236706,220404 images in 7241 websites))
+```
+
+Seems like it's the Latvians who take this win. With some luck involved, but a deserved victory!
