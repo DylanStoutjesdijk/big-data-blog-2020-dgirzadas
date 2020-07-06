@@ -73,7 +73,7 @@ def getHostname(text: String): Option[String] = for (m <- hostnamePattern.findFi
 ```
 This regular expression has been taken from [stack overflow](https://stackoverflow.com/questions/25703360/regular-expression-extract-subdomain-domain).
 
-Now, this expression captures the whole host name (e.g. "https://play.google.com"), but it is easy to parse the top-level from it by taking whatever is after the last `"."` and the full host name could be used for other interesting analyses.
+Now, this expression captures the whole host name (e.g. "https://play.google.com"), but it is easy to parse the top-level from it by taking whatever is after the last `"."` (`getDomain` function that is used in the next subsection) and the full host name could be used for other interesting analyses.
 
 ### Domain image counts
 To compute how many images each top-level domain contains, I did the following:
