@@ -86,7 +86,7 @@ To compute how many images each top-level domain contains, I did the following:
 This process is translated into code as follows:
 
 ```scala
-val domain_imageCounts = warcok.                                           //__
+val domain_imageCounts = warc_filtered.                                    //__
             map{wr => (StringUtils.substring(                              //  |
                 getHostname(wr._1).fold("")(_.toString),                   //  |- Key => Extracted top-level domain name
                 getHostname(wr._1).fold("")(_.toString).lastIndexOf("."),  //  |
@@ -119,7 +119,7 @@ So, I need to normalise the results.
 To do that, I need to get the total counts of websites from each top-level domain. This is done in a very similar manner as image counting, but a little more simple:
 
 ```scala
-val domain_siteCounts = warcok.                                                      //__
+val domain_siteCounts = warc_filtered.                                               //__
                         map{wr => (StringUtils.substring(                            //  |         
                             getDomain(wr._1).fold("")(_.toString),                   //  |- Key => Extracted top-level domain name       
                             getDomain(wr._1).fold("")(_.toString).lastIndexOf("."),  //  |             
@@ -181,7 +181,7 @@ Well, Austria got the gold. However, I can not leave out the honourable mentions
 This has been achieved in basically the same way as top-level domain image counts, but with full URLs as keys instead:
 
 ```scala
-val site_imageCounts = warcok.                                            
+val site_imageCounts = warc_filtered.                                            
             map{wr => 
             (wr._1,                                         // Key => URL, 
             wr._2)}.                                        // Value => HTTP content of the page
